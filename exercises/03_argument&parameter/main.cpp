@@ -5,7 +5,6 @@
 
 void func(int);
 
-// TODO: 为下列 ASSERT 填写正确的值
 int main(int argc, char **argv) {
     auto arg = 99;
     ASSERT(arg == 99, "arg should be ?");
@@ -16,7 +15,6 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-// TODO: 为下列 ASSERT 填写正确的值
 void func(int param) {
     ASSERT(param == 99, "param should be ?");
     std::cout << "befor add: " << param << std::endl;

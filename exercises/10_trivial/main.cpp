@@ -7,8 +7,10 @@ struct FibonacciCache {
     int cached;
 };
 
-// TODO: 实现正确的缓存优化斐波那契计算
 static unsigned long long fibonacci(FibonacciCache &cache, int i) {
+    if (i < cache.cached) {
+        return cache.cache[i];
+    }
     for (; cache.cached < (int) (sizeof(cache.cache) / sizeof(long long)); ++cache.cached) {
         cache.cache[cache.cached] = cache.cache[cache.cached - 1] + cache.cache[cache.cached - 2];
     }
@@ -16,7 +18,6 @@ static unsigned long long fibonacci(FibonacciCache &cache, int i) {
 }
 
 int main(int argc, char **argv) {
-    // TODO: 初始化缓存结构体，使计算正确
     // NOTICE: C/C++ 中，读取未初始化的变量（包括结构体变量）是未定义行为
     // READ: 初始化的各种写法 <https://zh.cppreference.com/w/cpp/language/initialization>
     FibonacciCache fib{.cache{0, 1}, .cached = 2};
