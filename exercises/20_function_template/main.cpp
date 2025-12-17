@@ -1,8 +1,9 @@
 ﻿#include "../exercise.h"
+#include <cmath>
 
 // READ: 函数模板 <https://zh.cppreference.com/w/cpp/language/function_template>
-// TODO: 将这个函数模板化
-int plus(int a, int b) {
+template<typename T>
+T plus(T a, T b) {
     return a + b;
 }
 
@@ -13,8 +14,9 @@ int main(int argc, char **argv) {
     // THINK: 浮点数何时可以判断 ==？何时必须判断差值？
     ASSERT(plus(1.25f, 2.5f) == 3.75f, "Plus two float");
     ASSERT(plus(1.25, 2.5) == 3.75, "Plus two double");
-    // TODO: 修改判断条件使测试通过
-    ASSERT(plus(0.1, 0.2) == 0.3, "How to make this pass?");
+    // 0.1+0.2=0.3(0.300000000004) 0.3(2.999999999...)
+    // 主要看能不能精确地表示为二进制浮点数
+    ASSERT(std::fabs(plus(0.1, 0.2) - 0.3) < 1e-6, "How to make this pass?");
 
     return 0;
 }
