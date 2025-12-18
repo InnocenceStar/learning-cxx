@@ -29,6 +29,11 @@ struct Tensor {
     T &operator[](unsigned int const indices[N]) {
         return data[data_index(indices)];
     }
+
+    /**
+     * 获取指定索引的值
+     * @param indices 向量索引:[0,0,0,0]表示获取第一个元素
+    */
     T const &operator[](unsigned int const indices[N]) const {
         return data[data_index(indices)];
     }
@@ -36,9 +41,8 @@ struct Tensor {
 private:
     unsigned int data_index(unsigned int const indices[N]) const {
         unsigned int index = 0, mul = 1;
-        for (unsigned int i = N - 1; i < N; --i) {
-            std::cout << i << std::endl;
-            ASSERT(indices[i] < shape[i], "Invalid index");
+        // 从右向左减少重复计算
+        for (int i = N - 1; i >= 0; --i) {
             index += mul * indices[i];
             mul *= shape[i];
         }
@@ -60,6 +64,7 @@ int main(int argc, char **argv) {
         unsigned int i1[]{1, 2, 3, 4};
         tensor[i1] = 2;
         ASSERT(tensor[i1] == 2, "tensor[i1] should be 2");
+        // 1*3*4*5 + 2*4*5 + 3*5 + 4
         ASSERT(tensor.data[119] == 2, "tensor[i1] should be 2");
     }
     {
@@ -74,6 +79,7 @@ int main(int argc, char **argv) {
         unsigned int i1[]{3, 4, 99};
         tensor[i1] = 2.f;
         ASSERT(tensor[i1] == 2.f, "tensor[i1] should be 2");
+        // (3-0)*8*238 + (4-0)*128 + 99
         ASSERT(tensor.data[3683] == 2.f, "tensor[i1] should be 2");
     }
     return 0;
