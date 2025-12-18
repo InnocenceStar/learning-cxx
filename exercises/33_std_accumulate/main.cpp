@@ -11,6 +11,7 @@ int main(int argc, char **argv) {
     //       - 形状为 shape；
     //       - 连续存储；
     //       的张量占用的字节数
+    // maybe (shape, shape+4)
     int size = std::accumulate(std::begin(shape), std::end(shape), sizeof(float), [](float a, float b) {
         return a * b;
     });
